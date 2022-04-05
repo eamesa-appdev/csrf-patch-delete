@@ -22,9 +22,15 @@ class MoviesController < ApplicationController
   def show
     the_id = params.fetch(:id)
 
-    matching_movies = Movie.where({ :id => the_id })
+    #matching_movies = Movie.where({ :id => the_id })
 
-    @the_movie = matching_movies.at(0)
+    #@the_movie = matching_movies[0]
+
+    @the_movie = Movie.find(the_id)
+
+    if @the_movie == nil
+      raise "There is no movie with that id"
+    end
 
     render({ :template => "movies/show.html.erb" })
   end
@@ -42,9 +48,13 @@ class MoviesController < ApplicationController
     end
   end
 
+#find_by(:column => value)   it is the same as .where(:column => value).first
+#Can return a record or a nil if no record matches
+
   def update
-    the_id = params.fetch(:id)
-    the_movie = Movie.where({ :id => the_id }).at(0)
+    #the_id = params.fetch(:id)
+    #the_movie = Movie.where({ :id => the_id })[0]
+    the_movie = Movie.find(params.fetch(:id))
 
     the_movie.title = params.fetch("query_title")
     the_movie.description = params.fetch("query_description")
@@ -59,7 +69,7 @@ class MoviesController < ApplicationController
 
   def destroy
     the_id = params.fetch(:id)
-    the_movie = Movie.where({ :id => the_id }).at(0)
+    the_movie = Movie.where({ :id => the_id })[0]
 
     the_movie.destroy
 

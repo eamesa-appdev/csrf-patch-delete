@@ -12,7 +12,7 @@
       </div>
 
       <div>
-        <a href="/movies/<%= @the_movie.id %>">
+        <a href="/movies/<%= @the_movie.id %>" data-method="delete">
           Delete movie
         </a>
       </div>
@@ -59,7 +59,11 @@
       Edit movie
     </h2>
 
-    <form action="/movies/<%= @the_movie.id %>"  method="post" >
+    <%= form_with%>
+
+    <form action="/movies/<%= @the_movie.id %>" method="post">
+      <input type="hidden" name="_method" value="patch">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
       <div>
         <label for="title_box">
           Title
